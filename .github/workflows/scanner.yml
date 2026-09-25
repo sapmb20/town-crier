@@ -1,0 +1,35 @@
+name: Town Crier
+
+on:
+  schedule:
+    # Sundays 13:00 UTC. /setup rewrites this line to your chosen day and time.
+    - cron: '0 13 * * 0'
+  workflow_dispatch: {}
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      # Stays idle until config.yaml exists, so a fresh copy of the template never runs.
+      - id: config
+        run: |
+          if [ -f config.yaml ]; then echo "present=true" >> "$GITHUB_OUTPUT"
+          else echo "::notice::No config.yaml yet. Run /setup in Claude Code to configure the scanner."; fi
+
+      - if: steps.config.outputs.present == 'true'
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.11'
+
+      - if: steps.config.outputs.present == 'true'
+        run: pip install -r requirements.txt
+
+      - if: steps.config.outputs.present == 'true'
+        run: python scanner.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}

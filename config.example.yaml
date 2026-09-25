@@ -1,0 +1,42 @@
+# Town Crier configuration.
+#
+# Run /setup in Claude Code to generate config.yaml from a short survey, or copy this
+# file to config.yaml and edit it by hand. The scanner will not run without config.yaml.
+
+# Name shown in the email header and subject line.
+digest_name: "The Town Crier"
+tagline: "what's worth showing up for this week."
+
+# Where to look. List the main city plus the nearby towns you would actually travel to.
+region: "Greater Chicago"
+areas:
+  - Chicago
+  - Evanston
+  - Oak Park
+  - Naperville
+
+# How far ahead to search, in weeks.
+window_weeks: 4
+
+# Who you are, in one sentence. It helps the model judge relevance.
+reader: "an early-career professional building a network in finance and design"
+
+# Interests in priority order. The first one matters most. Each becomes a section of the
+# digest. "focus" says what counts; leave it empty if the name is enough.
+interests:
+  - name: "Investing & Financial Education"
+    focus: "value investing, portfolio management, CFA society talks"
+  - name: "Product Design"
+    focus: "UX meetups, portfolio reviews, hands-on workshops"
+  - name: "General Business & Entrepreneurship"
+    focus: ""
+
+# Events to never recommend. Name specific organizers or describe a kind of event.
+exclude:
+  - "Free seminars that are sales pitches for a paid course or coaching program"
+
+# Themes for the opening quote. Leave the list empty to skip the quote.
+quote_themes: ["leadership", "discipline", "curiosity"]
+
+# Claude model used for the scan.
+model: "claude-opus-5"
